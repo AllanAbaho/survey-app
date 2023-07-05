@@ -17,7 +17,7 @@ class SurveyController extends Controller
         return view('take-survey', ['survey' => $this->survey()]);
     }
 
-    public function store(Request $request)
+    public function storeSurvey(Request $request)
     {
         $answers = $this->validate($request, $this->survey()->rules);
 
