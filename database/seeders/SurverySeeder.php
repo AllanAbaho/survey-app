@@ -14,7 +14,7 @@ class SurverySeeder extends Seeder
      */
     public function run()
     {
-        $survey = Survey::create(['name' => 'AML Survey', 'settings' => ['accept-guest-entries' => true]]);
+        $survey = Survey::create(['name' => 'AML Survey', 'settings' => ['limit-per-participant' => -1]]);
 
         $survey->questions()->create([
             'content' => 'Does the Client appear to be living beyond his/her means',
