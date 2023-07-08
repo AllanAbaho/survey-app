@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use MattDaneshvar\Survey\Models\Entry;
 use MattDaneshvar\Survey\Models\Survey;
 use PDF;
+use App\Models\Answers;
+
 
 class SurveyController extends Controller
 {
@@ -36,10 +38,38 @@ class SurveyController extends Controller
 
     public function storeSurvey(Request $request, $id)
     {
-        $answers = $this->validate($request, $this->survey($id)->rules);
 
-        (new Entry())->for($this->survey($id))->by(Auth::user())->fromArray($answers)->push();
+        // dd($request->all());
+        $myRequest = $request->all();
+        array_shift($myRequest);
+        $answers = array_chunk($myRequest, 2);
 
+        $questions = $this->survey($id)->questions()->get();
+        $question_keys = [];
+        foreach($questions as $question){
+            $question_keys[] = $question->id;
+        }
+        // dd($question_keys, $answers);
+
+        // $this->survey($id)->explanation = $request->explanation;
+        // $answers = $this->validate($request, $this->survey($id)->rules);
+        // dd($answers);
+
+        // (new Entry())->for($this->survey($id))->by(Auth::user())->fromArray($answers)->push();
+
+        $entry = new Entry;
+        $entry->survey_id = $id;
+        $entry->participant_id = Auth::id();
+        if($entry->save()){
+            for($i=0; $i<count($answers); $i++){
+                $insertedAnswer = new Answers();
+                $insertedAnswer->question_id = $question_keys[$i];
+                $insertedAnswer->entry_id = $entry->id;
+                $insertedAnswer->value = $answers[$i][0];
+                $insertedAnswer->explanation = $answers[$i][1];
+                $insertedAnswer->save();
+            }    
+        }
         return redirect()->route('dashboard')->with('success', 'Thank you for your submission');
     }
 
@@ -59,38 +89,19 @@ class SurveyController extends Controller
     public function submitSurvey(Request $request)
     {
         $name = $request->name;
-        $survey = Survey::create(['name' => 'Survey For ' . $name, 'settings' => ['limit-per-participant' => -1]]);
+        $survey = Survey::create(['name' => 'Survey For ' . $name]);
         $survey->questions()->create([
             'content' => 'Does the Client appear to be living beyond his/her means',
-            'type' => 'radio',
+            'type' => 'radio-and-text',
             'options' => ['Yes', 'No'],
             'rules' => 'required'
         ]);
         $survey->questions()->create([
-            'content' => 'Client has cheques inconsistent with sales (i.e., unusual payments from unlikely sources)',
-            'type' => 'radio',
+            'content' => 'Does the Client appear to be living beyond his/her means',
+            'type' => 'radio-and-text',
             'options' => ['Yes', 'No'],
-            'rules' => ['required']
+            'rules' => 'required'
         ]);
-        $survey->questions()->create([
-            'content' => 'Client has history of changing bookkeepers or accountants yearly',
-            'type' => 'radio',
-            'options' => ['Yes', 'No'],
-            'rules' => ['required']
-        ]);
-        $survey->questions()->create([
-            'content' => 'Client is uncertain about location of company records',
-            'type' => 'radio',
-            'options' => ['Yes', 'No'],
-            'rules' => ['required']
-        ]);
-        $survey->questions()->create([
-            'content' => 'Company carries non-existent or satisfied debt that is continually shown as current on financial statements',
-            'type' => 'radio',
-            'options' => ['Yes', 'No'],
-            'rules' => ['required']
-        ]);
-
         $survey->save();
         return redirect()->route('take-survey', ['id' => $survey->id]);
     }

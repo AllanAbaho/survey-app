@@ -18,6 +18,7 @@ class CreateAnswersTable extends Migration
             $table->unsignedInteger('question_id');
             $table->unsignedInteger('entry_id')->nullable();
             $table->string('value');
+            $table->string('explanation');
             $table->timestamps();
         });
     }

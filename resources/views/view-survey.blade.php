@@ -9,6 +9,19 @@
         button {
             display: none !important;
         }
+        .form-control:disabled, .form-control[readonly] {
+    background-color: transparent;
+}
+[type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select {
+  
+  border-color: transparent;
+  border-width: 0px;
+  padding-left: 0rem;
+}
+.form-control {
+    border: 0px;
+}
+
     </style>
 
     <div class="py-12">
