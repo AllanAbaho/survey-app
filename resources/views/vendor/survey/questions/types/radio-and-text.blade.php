@@ -26,7 +26,7 @@
 
     ?>
     <br><div class="mb-3">
-    <label for="explanation" class="form-label">Explanation</label><br>
+    <label for="explanation" class="form-label">Comments</label><br>
     <input type="text" class="form-control" name="{{ $question->key . '-' . 'explanation'}}"  value="{{$answer ? $answer->explanation : '' }}" {{ ($disabled ?? false) ? 'disabled' : '' }} required>
   </div><br>
 
