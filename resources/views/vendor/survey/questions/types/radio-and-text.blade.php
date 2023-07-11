@@ -33,6 +33,6 @@ $riskLevels = ['1 - Minimal', '2 - Low', '3 - Medium', '4 - High', '5 - Already 
 <div class="mb-3">
     <label for="explanation" class="form-label">Comments</label><br>
     <input type="text" class="form-control" name="{{ $question->key . '-' . 'explanation'}}" value="{{$answer ? $answer->explanation : '' }}" {{ ($disabled ?? false) ? 'disabled' : '' }} required>
-</div>
+</div><br>
 
 @endcomponent
