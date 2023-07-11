@@ -40,8 +40,9 @@ class SurveyController extends Controller
     {
 
         $myRequest = $request->all();
+        // dd($myRequest);
         array_shift($myRequest);
-        $answers = array_chunk($myRequest, 2);
+        $answers = array_chunk($myRequest, 3);
 
         $questions = $this->survey($id)->questions()->get();
         $question_keys = [];
@@ -65,7 +66,8 @@ class SurveyController extends Controller
                 $insertedAnswer->question_id = $question_keys[$i];
                 $insertedAnswer->entry_id = $entry->id;
                 $insertedAnswer->value = $answers[$i][0];
-                $insertedAnswer->explanation = $answers[$i][1];
+                $insertedAnswer->risk_level = $answers[$i][1];
+                $insertedAnswer->explanation = $answers[$i][2];
                 $insertedAnswer->save();
             }
         }

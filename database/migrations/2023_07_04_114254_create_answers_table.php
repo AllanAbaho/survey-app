@@ -19,6 +19,7 @@ class CreateAnswersTable extends Migration
             $table->unsignedInteger('entry_id')->nullable();
             $table->string('value');
             $table->string('explanation');
+            $table->string('risk_level');
             $table->timestamps();
         });
     }
