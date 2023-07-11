@@ -11,12 +11,6 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form action="{{ route('store-survey',['id'=> $survey->id])}}" method="POST" class="container">
                         @csrf
-
-                        @if(session('success'))
-                        <div class="alert alert-success">{{session('success')}}</div>
-                        @endif()
-                        <br>
-
                         @include('survey::standard', ['survey' => $survey])
 
                     </form>

@@ -69,7 +69,7 @@ class SurveyController extends Controller
                 $insertedAnswer->save();
             }
         }
-        return redirect()->route('dashboard')->with('success', 'Thank you for your submission');
+        return redirect()->route('finish-survey', ['id' => $id])->with('success', 'Thank you for your submission. Please fill in the details below to close questionaire.');
     }
 
     public function downloadPdf($id)
@@ -87,31 +87,63 @@ class SurveyController extends Controller
 
     public function submitSurvey(Request $request)
     {
-        $questions = $this->getQuestions();
         $name = $request->name;
-        $practice_name = $request->practice_name;
-        $assessment_officer = $request->assessment_officer;
-        $reporting_officer = $request->reporting_officer;
-        $next_review_date = $request->next_review_date;
+        $type = $request->type;
+        if ($type == 'firm') {
+            $questions = $this->firmQuestions();
+            $options = ['Yes', 'No'];
+        }
+        if ($type == 'company') {
+            $questions = $this->companyQuestions();
+            $options = ['Yes', 'No', 'N/A'];
+        }
+
+        // $practice_name = $request->practice_name;
+        // $assessment_officer = $request->assessment_officer;
+        // $reporting_officer = $request->reporting_officer;
+        // $next_review_date = $request->next_review_date;
         $survey = Survey::create(['name' => 'Survey For ' . $name]);
 
         foreach ($questions as $question) {
             $survey->questions()->create([
                 'content' => $question,
                 'type' => 'radio-and-text',
-                'options' => ['Yes', 'No'],
-                'rules' => 'required'
+                'options' => $options,
+                // 'rules' => 'required'
             ]);
         }
+        $survey->type = $type;
+        // $survey->practice_name = $practice_name;
+        // $survey->assessment_officer = $assessment_officer;
+        // $survey->reporting_officer = $reporting_officer;
+        // $survey->next_review_date = $next_review_date;
+        $survey->save();
+        return redirect()->route('take-survey', ['id' => $survey->id]);
+    }
+
+    public function finishSurvey($id)
+    {
+        return view('finish-survey', ['id' => $id]);
+    }
+
+    public function closeSurvey(Request $request, $id)
+    {
+        $practice_name = $request->practice_name;
+        $assessment_officer = $request->assessment_officer;
+        $reporting_officer = $request->reporting_officer;
+        $next_review_date = $request->next_review_date;
+
+        $survey = Survey::where('id', $id)->first();
+
         $survey->practice_name = $practice_name;
         $survey->assessment_officer = $assessment_officer;
         $survey->reporting_officer = $reporting_officer;
         $survey->next_review_date = $next_review_date;
         $survey->save();
-        return redirect()->route('take-survey', ['id' => $survey->id]);
+        return redirect()->route('dashboard')->with('success', 'Questionnaire completed successfully');
     }
 
-    public function getQuestions()
+    public function firmQuestions()
     {
         return [
             '1. Does our practice have any clients or client representatives who we have not met face-to-face?',
@@ -267,6 +299,16 @@ class SurveyController extends Controller
             '151. Deposits followed within a short time by wore/electronic transfer of funds to or through locations of concern, such as countries known or suspected to facilitate money laundering activities?',
             '152. Transaction involves a country where illicit drug production or exporting may be prevalent, or where there is no effective anti-money-laundering system?',
             '153. Transaction involves a country known or suspected to facilitate money laundering activities?',
+        ];
+    }
+
+    public function companyQuestions()
+    {
+        return [
+            '1. Have you established appropriate compliance management arrangements to facilitate the
+            implementation of AML/CFT systems to comply with relevant legal and regulatory obligations as well
+            as to manage ML/TF risks?',
+            '2. Is your senior management responsible for implementing effective AML/CFT system that can adequately manage the ML/TF risks identified?'
         ];
     }
 }

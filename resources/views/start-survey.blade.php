@@ -13,28 +13,17 @@
                         @csrf
 
                         <br>
-
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Company Name</label>
+                            <label for="exampleInputEmail1" class="form-label">Select Type</label>
+                            <select class="form-select" aria-label="Default select example" name="type">
+                                <option value="firm">Firm</option>
+                                <option value="company">Company</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Company / Firm Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="practice_name" class="form-label">Practice Name</label>
-                            <input type="text" name="practice_name" class="form-control" id="practice_name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assessment_officer" class="form-label">Assessment Officer</label>
-                            <input type="text" name="assessment_officer" class="form-control" id="assessment_officer" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reporting_officer" class="form-label">Reporting Officer</label>
-                            <input type="text" name="reporting_officer" class="form-control" id="reporting_officer" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="next_review_date" class="form-label">Next Review Date</label>
-                            <input type="text" name="next_review_date" class="form-control" id="next_review_date" required>
-                        </div>
-
                         <button type="submit" class="btn btn-primary" style="background-color: #0d6efd;">Submit</button>
                     </form>
                 </div>

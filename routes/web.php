@@ -31,6 +31,8 @@ Route::get('/download-pdf/{id}', [SurveyController::class, 'downloadPdf'])->midd
 Route::get('/start-survey', [SurveyController::class, 'startSurvey'])->middleware(['auth'])->name('start-survey');
 Route::post('/store-survey/{id}', [SurveyController::class, 'storeSurvey'])->middleware(['auth'])->name('store-survey');
 Route::post('/submit-survey', [SurveyController::class, 'submitSurvey'])->middleware(['auth'])->name('submit-survey');
+Route::get('/finish-survey/{id}', [SurveyController::class, 'finishSurvey'])->middleware(['auth'])->name('finish-survey');
+Route::post('/close-survey/{id}', [SurveyController::class, 'closeSurvey'])->middleware(['auth'])->name('close-survey');
 
 
 require __DIR__ . '/auth.php';
