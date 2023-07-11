@@ -16,6 +16,10 @@ class CreateSurveysTable extends Migration
         Schema::create(config('survey.database.tables.surveys'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('practice_name');
+            $table->string('assessment_officer');
+            $table->string('reporting_officer');
+            $table->string('next_review_date');
             $table->json('settings')->nullable();
             $table->timestamps();
         });
