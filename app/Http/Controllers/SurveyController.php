@@ -39,7 +39,6 @@ class SurveyController extends Controller
     public function storeSurvey(Request $request, $id)
     {
 
-        dd($request->all());
         $myRequest = $request->all();
         array_shift($myRequest);
         $answers = array_chunk($myRequest, 2);
