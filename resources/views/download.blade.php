@@ -20,6 +20,13 @@
         }
     </style>
     <h1><?= $survey->name ?></h1>
+    <b>Organisation Type:</b> {{$survey->type}}<br>
+    <b>Practice Name:</b> {{$survey->practice_name}}<br>
+    <b>Assessment Officer:</b> {{$survey->assessment_officer}}<br>
+    <b>Reporting Officer:</b> {{$survey->reporting_officer}}<br>
+    <b>Next Review Date:</b> {{$survey->next_review_date}}<br>
+    <b>Assessment Date:</b> {{$survey->created_at}}<br><br>
+
     @include('survey::standard', ['survey' => $survey])
 
 </body>
