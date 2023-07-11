@@ -93,7 +93,7 @@ class SurveyController extends Controller
         $assessment_officer = $request->assessment_officer;
         $reporting_officer = $request->reporting_officer;
         $next_review_date = $request->next_review_date;
-        $survey = Survey::create(['name' => 'Survey For ' . $name, 'practice_name' => $practice_name, 'assessment_officer' => $assessment_officer, 'reporting_officer' => $reporting_officer, 'next_review_date' => $next_review_date]);
+        $survey = Survey::create(['name' => 'Survey For ' . $name]);
 
         foreach ($questions as $question) {
             $survey->questions()->create([
@@ -103,6 +103,10 @@ class SurveyController extends Controller
                 'rules' => 'required'
             ]);
         }
+        $survey->practice_name = $practice_name;
+        $survey->assessment_officer = $assessment_officer;
+        $survey->reporting_officer = $reporting_officer;
+        $survey->next_review_date = $next_review_date;
         $survey->save();
         return redirect()->route('take-survey', ['id' => $survey->id]);
     }
