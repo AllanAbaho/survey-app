@@ -27,7 +27,7 @@ $riskLevels = ['1 - Minimal', '2 - Low', '3 - Medium', '4 - High', '5 - Already 
             <option value="5 - Already Materialised">5 - Already Materialised</option>
         </select>
     <?php else : ?>
-        Risk Level: {{$answer->risk_level}}
+        Risk Level: {{$answer? $answer->risk_level : ''}}
     <?php endif; ?>
 </div>
 <div class="mb-3">
