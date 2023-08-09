@@ -19,19 +19,19 @@
                         <br>
                         <div class="mb-3">
                             <label for="practice_name" class="form-label">Practice Name</label>
-                            <input type="text" name="practice_name" class="form-control" id="practice_name" required>
+                            <input type="text" name="practice_name" class="form-control" id="practice_name" value="{{$survey ? $survey->practice_name : '' }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="assessment_officer" class="form-label">Assessment Officer</label>
-                            <input type="text" name="assessment_officer" class="form-control" id="assessment_officer" required>
+                            <input type="text" name="assessment_officer" class="form-control" id="assessment_officer" value="{{$survey ? $survey->assessment_officer : '' }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="reporting_officer" class="form-label">Reporting Officer</label>
-                            <input type="text" name="reporting_officer" class="form-control" id="reporting_officer" required>
+                            <input type="text" name="reporting_officer" class="form-control" id="reporting_officer" value="{{$survey ? $survey->reporting_officer : '' }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="next_review_date" class="form-label">Next Review Date</label>
-                            <input type="text" name="next_review_date" class="form-control" id="next_review_date" required>
+                            <input type="text" name="next_review_date" class="form-control" id="next_review_date" value="{{$survey ? $survey->next_review_date : '' }}" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="background-color: #0d6efd;">Submit</button>

@@ -27,8 +27,16 @@
     <b>Next Review Date:</b> {{$survey->next_review_date}}<br>
     <b>Assessment Date:</b> {{$survey->created_at}}<br><br>
 
-    @include('survey::standard', ['survey' => $survey])
+    @foreach($survey->questions as $question)
+    {{$question->content}}<br>
 
+
+    <?php $answer = \App\Models\Answers::where('question_id', $question->id)->first();
+    ?>
+    <b>Answer:</b> <?= $answer->value; ?><br>
+    <b>Risk Level:</b> <?= $answer->risk_level; ?><br>
+    <b>Explanation:</b> <?= $answer->explanation; ?><br><br>
+    @endforeach
 </body>
 
 </html>

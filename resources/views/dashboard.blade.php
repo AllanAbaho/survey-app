@@ -23,13 +23,21 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Company Name</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php for ($i = 0; $i < count($surveys); $i++) : ?>
                                 <tr>
                                     <th scope="row"><?= $i + 1; ?></th>
-                                    <td><a href="{{route('view-survey',['id'=>$surveys[$i]['id']])}}"> <?= $surveys[$i]['name'] ?></a></td>
+                                    <td><?= $surveys[$i]['name'] ?></td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{{route('take-survey',['id'=>$surveys[$i]['id']])}}"> Edit</a>
+                                        @if (Auth::id() == 1)
+                                        <a href="{{route('download-pdf', ['id'=>$surveys[$i]['id']])}}" class="btn btn-success">Download</a>
+                                        @endif
+                                    </td>
+                                    <td></td>
                                 </tr>
                             <?php endfor; ?>
                         </tbody>

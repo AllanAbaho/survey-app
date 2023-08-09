@@ -33,7 +33,7 @@ class SurveyController extends Controller
         if (!$this->survey($id)) {
             return redirect()->route('dashboard');
         }
-        return view('view-survey', ['survey' => $this->survey($id)]);
+        return view('download', ['survey' => $this->survey($id)]);
     }
 
     public function storeSurvey(Request $request, $id)
@@ -70,6 +70,39 @@ class SurveyController extends Controller
                 $insertedAnswer->explanation = $answers[$i][2];
                 $insertedAnswer->save();
             }
+        }
+        return redirect()->route('finish-survey', ['id' => $id])->with('success', 'Thank you for your submission. Please fill in the details below to close questionaire.');
+    }
+
+    public function updateSurvey(Request $request, $id)
+    {
+
+        $myRequest = $request->all();
+        array_shift($myRequest);
+        $answers = array_chunk($myRequest, 3);
+
+        $questions = $this->survey($id)->questions()->get();
+        $question_keys = [];
+        foreach ($questions as $question) {
+            $question_keys[] = $question->id;
+        }
+        // dd($question_keys, $answers);
+
+        // $this->survey($id)->explanation = $request->explanation;
+        // $answers = $this->validate($request, $this->survey($id)->rules);
+        // dd($answers);
+
+        // (new Entry())->for($this->survey($id))->by(Auth::user())->fromArray($answers)->push();
+
+        $entry = Entry::where('survey_id', $id)->first();
+        for ($i = 0; $i < count($answers); $i++) {
+            $insertedAnswer = Answers::where('question_id', $question_keys[$i])->first();
+            $insertedAnswer->question_id = $question_keys[$i];
+            $insertedAnswer->entry_id = $entry->id;
+            $insertedAnswer->value = $answers[$i][0];
+            $insertedAnswer->risk_level = $answers[$i][1];
+            $insertedAnswer->explanation = $answers[$i][2];
+            $insertedAnswer->save();
         }
         return redirect()->route('finish-survey', ['id' => $id])->with('success', 'Thank you for your submission. Please fill in the details below to close questionaire.');
     }
@@ -125,7 +158,8 @@ class SurveyController extends Controller
 
     public function finishSurvey($id)
     {
-        return view('finish-survey', ['id' => $id]);
+        $survey = $this->survey($id);
+        return view('finish-survey', ['id' => $id, 'survey' => $survey]);
     }
 
     public function closeSurvey(Request $request, $id)
