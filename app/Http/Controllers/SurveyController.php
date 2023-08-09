@@ -26,7 +26,8 @@ class SurveyController extends Controller
         if (!$this->survey($id)) {
             return redirect()->route('dashboard');
         }
-        return view('take-survey', ['survey' => $this->survey($id)]);
+        $entry = Entry::where('survey_id', $id)->first();
+        return view('take-survey', ['survey' => $this->survey($id), 'entry' => $entry]);
     }
     public function viewSurvey($id)
     {
