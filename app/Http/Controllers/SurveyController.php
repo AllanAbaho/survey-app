@@ -354,7 +354,7 @@ class SurveyController extends Controller
             "9. Do you ensure that CO is: fully conversant in the statutory and regulatory requirements and ML/TF risks arising from your business?",
             "10. Do you ensure that CO is: capable of accessing on a timely basis all required available information to undertake its role?",
             "11. Do you ensure that CO is: equipped with sufficient resources, including staff?",
-            "12. Do you ensure that CO is: overseeing your firm's compliance with the relevant AML requirements in Pakistan and overseas  branches and subsidiaries?",
+            "12. Do you ensure that CO is: overseeing your firm's compliance with the relevant AML requirements in Uganda and overseas  branches and subsidiaries?",
             "13. Have you established an independent audit function?",
             "14. If yes, does the function regularly review the AML/CFT systems to ensure effectiveness?",
             "15. If appropriate, have you sought review assistance from external sources regarding your AML/CFT systems?",
